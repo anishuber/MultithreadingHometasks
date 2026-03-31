@@ -1,10 +1,18 @@
-﻿namespace Task2.CarLibrary
+﻿using System.Xml.Serialization;
+
+namespace Task2.CarLibrary
 {
     public class Car
     {
         private int VanId {  get; set; }
+
+        [XmlAttribute]
         public string Model { get; set; } = string.Empty;
+
+        [XmlAttribute]
         public string PlateNumber { get; set; } = string.Empty;
+
+        [XmlAttribute]
         public CarType VehicleType { get; set; }
 
         public Car Create(int vanId, string model, string plateNumber, CarType vehicleType)
