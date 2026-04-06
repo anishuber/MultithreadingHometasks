@@ -1,10 +1,12 @@
-﻿using System.Xml.Serialization;
-
-namespace Task2.CarLibrary
+﻿namespace Task2.CarLibrary
 {
+    using System.Xml.Serialization;
+
+    [Serializable]
     public class Car
     {
-        private int VanId {  get; set; }
+        [XmlAttribute]
+        public int VanId { get; set; }
 
         [XmlAttribute]
         public string Model { get; set; } = string.Empty;
