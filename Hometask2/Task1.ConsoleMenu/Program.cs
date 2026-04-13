@@ -33,7 +33,7 @@
                             helper.PrintObjects();
                             break;
                         case "2":
-                            helper.CreateTemplateObjects();
+                            helper.CreateTemplateCarObjects();
                             break;
                         case "3":
                             helper.SerializeContents();

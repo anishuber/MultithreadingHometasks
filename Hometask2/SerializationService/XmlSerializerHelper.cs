@@ -7,12 +7,12 @@
 
     public class XmlSerializerHelper
     {
-        private readonly List<Car> _cars = new List<Car>();
-        private readonly string _filePath = string.Empty;
+        private readonly List<Car> cars = new List<Car>();
+        private readonly string filePath = string.Empty;
 
         public XmlSerializerHelper(string filePath)
         {
-            this.CreateTemplateObjects();
+            this.CreateTemplateCarObjects();
 
             ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
 
@@ -32,29 +32,34 @@
                 throw new DirectoryNotFoundException("Директория файла отсутсвует");
             }
 
-            this._filePath = filePath;
+            this.filePath = filePath;
         }
 
-        public void CreateTemplateObjects()
+        public void CreateTemplateCarObjects()
         {
-            this._cars.Clear();
+            this.cars.Clear();
 
             for (int i = 1; i <= 10; i++)
             {
                 var car = new Car();
-                this._cars.Add(car.Create(i, $"model-{i}", $"plateNumber-{i}", (CarType)(i % 2)));
+                this.cars.Add(car.Create(i, $"model-{i}", $"plateNumber-{i}", (CarType)(i % 2)));
             }
         }
 
         public void SerializeContents()
         {
-            var serializer = new XmlSerializer(typeof(List<Car>));
+            this.SerializeContents<Car>(this.cars);
+        }
 
-            using (var stream = new FileStream(this._filePath, FileMode.Create, FileAccess.Write))
+        public void SerializeContents<T>(List<T> objectsToSerialize)
+        {
+            var serializer = new XmlSerializer(typeof(List<T>));
+
+            using (var stream = new FileStream(this.filePath, FileMode.Create, FileAccess.Write))
             {
-                if (this._cars.Count > 0)
+                if (objectsToSerialize.Count > 0)
                 {
-                    serializer.Serialize(stream, this._cars);
+                    serializer.Serialize(stream, objectsToSerialize);
                     Console.WriteLine("Объекты сериализованы");
                 }
                 else
@@ -68,27 +73,31 @@
 
         public List<Car> DeserializeContents()
         {
-            var serializer = new XmlSerializer(typeof(List<Car>));
+            return this.DeserializeContents<Car>();
+        }
 
-            using var stream = new FileStream(this._filePath, FileMode.Open, FileAccess.Read);
-            var carList = (List<Car>?)serializer.Deserialize(stream);
+        public List<T> DeserializeContents<T>()
+        {
+            var serializer = new XmlSerializer(typeof(List<T>));
 
-            if (carList is not null && carList.Count > 0)
+            using var stream = new FileStream(this.filePath, FileMode.Open, FileAccess.Read);
+            var objectList = (List<T>?)serializer.Deserialize(stream);
+
+            if (objectList is not null && objectList.Count > 0)
             {
                 Console.WriteLine("Объекты десериализованы");
-                PrintObjects(carList);
-                return carList;
+                return objectList;
             }
 
             Console.WriteLine("Файл пуст");
-            return new List<Car>();
+            return new List<T>();
         }
 
         public void PrintXml()
         {
             try
             {
-                string text = File.ReadAllText(this._filePath);
+                string text = File.ReadAllText(this.filePath);
 
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -112,13 +121,18 @@
             }
         }
 
-        public void FindXmlAttributeXDocument(string attribute)
+        public void FindXmlAttributeXDocument(string attributeName)
         {
-            XDocument doc = XDocument.Load(this._filePath);
+            this.FindXmlAttributeXDocument(attributeName, "Car");
+        }
+
+        public void FindXmlAttributeXDocument(string attributeName, string elementWithAttributeName)
+        {
+            XDocument doc = XDocument.Load(this.filePath);
             IEnumerable<XAttribute> allAttributes = doc
-                .Descendants("Car")
+                .Descendants(elementWithAttributeName)
                 .Attributes()
-                .Where(attr => attr.Name == attribute);
+                .Where(attr => attr.Name == attributeName);
 
             foreach (var attr in allAttributes)
             {
@@ -126,16 +140,21 @@
             }
         }
 
-        public void FindXmlAttributeXmlDocument(string attribute)
+        public void FindXmlAttributeXmlDocument(string attributeName)
+        {
+            this.FindXmlAttributeXmlDocument(attributeName, "Car");
+        }
+
+        public void FindXmlAttributeXmlDocument(string attributeName, string elementWithAttributeName)
         {
             var doc = new XmlDocument();
-            doc.Load(this._filePath);
+            doc.Load(this.filePath);
 
-            XmlNodeList allElements = doc.GetElementsByTagName("Car");
+            XmlNodeList allElements = doc.GetElementsByTagName(elementWithAttributeName);
 
             for (int i = 0; i < allElements.Count; i++)
             {
-                XmlAttribute? attr = allElements[i]?.Attributes?[attribute];
+                XmlAttribute? attr = allElements[i]?.Attributes?[attributeName];
 
                 if (attr is not null)
                 {
@@ -146,8 +165,17 @@
 
         public void ChangeXmlAttributeXDocument(string attributeName, int elementNumber, string newAttributeValue)
         {
-            XDocument? doc = XDocument.Load(this._filePath);
-            var elements = doc.Descendants("Car").ToList();
+            this.ChangeXmlAttributeXDocument(attributeName, "Car", elementNumber, newAttributeValue);
+        }
+
+        public void ChangeXmlAttributeXDocument(
+            string attributeName,
+            string elementWithAttributeName,
+            int elementNumber,
+            string newAttributeValue)
+        {
+            XDocument? doc = XDocument.Load(this.filePath);
+            var elements = doc.Descendants(elementWithAttributeName).ToList();
 
             if (elementNumber < 1 || elementNumber > elements.Count)
             {
@@ -164,20 +192,29 @@
             }
 
             attr.Value = newAttributeValue;
-            doc.Save(this._filePath);
+            doc.Save(this.filePath);
             this.PrintXml();
         }
 
         public void ChangeXmlAttributeXmlDocument(string attributeName, int elementNumber, string newAttributeValue)
         {
-            var doc = new XmlDocument();
-            doc.Load(this._filePath);
+            this.ChangeXmlAttributeXmlDocument(attributeName, "Car", elementNumber, newAttributeValue);
+        }
 
-            XmlNodeList? nodes = doc.SelectNodes("//ArrayOfCar/Car");
+        public void ChangeXmlAttributeXmlDocument(
+            string attributeName,
+            string elementWithAttributeName,
+            int elementNumber,
+            string newAttributeValue)
+        {
+            var doc = new XmlDocument();
+            doc.Load(this.filePath);
+
+            XmlNodeList? nodes = doc.SelectNodes($"//{elementWithAttributeName}");
 
             if (nodes is null || nodes.Count == 0)
             {
-                Console.WriteLine("Элементы Car не были найдены");
+                Console.WriteLine($"Элементы {elementWithAttributeName} не были найдены");
                 return;
             }
 
@@ -195,13 +232,13 @@
             }
 
             element.SetAttribute(attributeName, newAttributeValue);
-            doc.Save(this._filePath);
+            doc.Save(this.filePath);
             this.PrintXml();
         }
 
         public void PrintObjects()
         {
-            PrintObjects(this._cars);
+            PrintObjects(this.cars);
         }
 
         private static void PrintObjects(List<Car> objects)
