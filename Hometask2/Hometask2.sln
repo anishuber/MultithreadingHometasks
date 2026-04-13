@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37027.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task2.CarLibrary", "..\Hometask1\CarLibrary\Task2.CarLibrary.csproj", "{D2C2FE5A-0F8A-374B-2A26-B38D790AA2B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLibrary", "..\Shared\CarLibrary\CarLibrary.csproj", "{FB8C1A56-1344-6357-287E-A15BD23EF64B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task1.ConsoleMenu", "Task1.ConsoleMenu\Task1.ConsoleMenu.csproj", "{380A296F-EE76-4F64-B714-19DF108255CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMenu", "ConsoleMenu\ConsoleMenu.csproj", "{E9CEEE9C-C758-EE9F-C2E0-9132BF053037}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationService", "SerializationService\SerializationService.csproj", "{30D04A4E-E034-665B-CE7E-33745EF0D309}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationService", "..\Shared\SerializationService\SerializationService.csproj", "{7EABE361-E25E-3D29-F564-E1F62740DA59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D2C2FE5A-0F8A-374B-2A26-B38D790AA2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2C2FE5A-0F8A-374B-2A26-B38D790AA2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2C2FE5A-0F8A-374B-2A26-B38D790AA2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2C2FE5A-0F8A-374B-2A26-B38D790AA2B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{380A296F-EE76-4F64-B714-19DF108255CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{380A296F-EE76-4F64-B714-19DF108255CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{380A296F-EE76-4F64-B714-19DF108255CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{380A296F-EE76-4F64-B714-19DF108255CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30D04A4E-E034-665B-CE7E-33745EF0D309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30D04A4E-E034-665B-CE7E-33745EF0D309}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30D04A4E-E034-665B-CE7E-33745EF0D309}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30D04A4E-E034-665B-CE7E-33745EF0D309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9CEEE9C-C758-EE9F-C2E0-9132BF053037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9CEEE9C-C758-EE9F-C2E0-9132BF053037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9CEEE9C-C758-EE9F-C2E0-9132BF053037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9CEEE9C-C758-EE9F-C2E0-9132BF053037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EABE361-E25E-3D29-F564-E1F62740DA59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EABE361-E25E-3D29-F564-E1F62740DA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EABE361-E25E-3D29-F564-E1F62740DA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EABE361-E25E-3D29-F564-E1F62740DA59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

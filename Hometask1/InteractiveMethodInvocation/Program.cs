@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ReflectionService;
 
-namespace Task1.InteractiveMethodInvocation
+namespace InteractiveMethodInvocation
 {
     public static class Program
     {

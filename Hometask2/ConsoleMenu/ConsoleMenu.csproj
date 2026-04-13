@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Hometask1\CarLibrary\Task2.CarLibrary.csproj" />
-    <ProjectReference Include="..\SerializationService\SerializationService.csproj" />
+    <ProjectReference Include="..\..\Shared\CarLibrary\CarLibrary.csproj" />
+    <ProjectReference Include="..\..\Shared\SerializationService\SerializationService.csproj" />
   </ItemGroup>
 
 </Project>

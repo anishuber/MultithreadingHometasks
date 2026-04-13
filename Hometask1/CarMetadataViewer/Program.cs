@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Task2.ConsoleApp
+namespace CarMetadataViewer
 {
     public static class Program
     {

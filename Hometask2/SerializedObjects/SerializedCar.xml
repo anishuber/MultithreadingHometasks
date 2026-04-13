@@ -1,1 +1,13 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Car VanId="1" Model="1" PlateNumber="plateNumber-1" VehicleType="Hatchback" />
+  <Car VanId="2" Model="model-2" PlateNumber="plateNumber-2" VehicleType="Sedan" />
+  <Car VanId="3" Model="model-3" PlateNumber="plateNumber-3" VehicleType="Hatchback" />
+  <Car VanId="4" Model="model-4" PlateNumber="plateNumber-4" VehicleType="Sedan" />
+  <Car VanId="5" Model="model-5" PlateNumber="plateNumber-5" VehicleType="Hatchback" />
+  <Car VanId="6" Model="model-6" PlateNumber="plateNumber-6" VehicleType="Sedan" />
+  <Car VanId="7" Model="model-7" PlateNumber="plateNumber-7" VehicleType="Hatchback" />
+  <Car VanId="8" Model="model-8" PlateNumber="plateNumber-8" VehicleType="Sedan" />
+  <Car VanId="9" Model="model-9" PlateNumber="plateNumber-9" VehicleType="Hatchback" />
+  <Car VanId="10" Model="model-10" PlateNumber="plateNumber-10" VehicleType="Sedan" />
+</ArrayOfCar>

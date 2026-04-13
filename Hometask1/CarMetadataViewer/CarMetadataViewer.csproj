@@ -7,9 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CarLibrary\Task2.CarLibrary.csproj" />
-    <ProjectReference Include="..\ReflectionService\ReflectionService.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Task2.CarLibrary
+﻿namespace CarLibrary
 {
     using System.Xml.Serialization;
 

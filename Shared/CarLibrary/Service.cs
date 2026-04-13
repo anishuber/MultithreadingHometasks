@@ -1,4 +1,4 @@
-﻿namespace Task2.CarLibrary
+﻿namespace CarLibrary
 {
     public class Service
     {

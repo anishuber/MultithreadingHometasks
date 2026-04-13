@@ -1,8 +1,7 @@
-﻿namespace Task1.ConsoleMenu
+﻿namespace ConsoleMenu
 {
     using System.Runtime.Serialization;
     using System.Xml;
-    using SerializationService;
 
     public static class Program
     {

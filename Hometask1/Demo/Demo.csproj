@@ -8,9 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarConsoleApp\Task2.ConsoleApp.csproj" />
-    <ProjectReference Include="..\CarCreationConsoleApp\Task3.CarCreationConsoleApp.csproj" />
-    <ProjectReference Include="..\InteractiveMethodInvocation\Task1.InteractiveMethodInvocation.csproj" />
+    <ProjectReference Include="..\CarConsoleApp\CarMetadataViewer.csproj" />
+    <ProjectReference Include="..\CarCreationConsoleApp\CarCreation.csproj" />
+    <ProjectReference Include="..\CarCreation\CarCreation.csproj" />
+    <ProjectReference Include="..\CarMetadataViewer\CarMetadataViewer.csproj" />
+    <ProjectReference Include="..\InteractiveMethodInvocation\InteractiveMethodInvocation.csproj" />
   </ItemGroup>
 
 </Project>
