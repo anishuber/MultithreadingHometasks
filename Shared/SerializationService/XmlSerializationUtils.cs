@@ -3,6 +3,7 @@
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using Helpers;
 
     public static class XmlSerializationUtils
     {
@@ -31,6 +32,20 @@
             return default;
         }
 
+        public static List<T> DeserializeObjectsFromXml<T>(XmlSerializer serializer, FileStream fileStream)
+        {
+            var objectList = (List<T>?)serializer.Deserialize(fileStream);
+
+            if (objectList is not null && objectList.Count > 0)
+            {
+                Console.WriteLine("Объекты десериализованы");
+                return objectList;
+            }
+
+            Console.WriteLine("Файл пуст");
+            return new List<T>();
+        }
+
         public static void SerializeObjectsFromList<T>(string filePath, List<T> objectsToSerialize)
         {
             var serializer = new XmlSerializer(typeof(List<T>));
@@ -49,36 +64,6 @@
             }
         }
 
-        public static void PrintXml(string filePath)
-        {
-            ValidatePath(filePath);
-
-            try
-            {
-                string text = File.ReadAllText(filePath);
-
-                if (string.IsNullOrWhiteSpace(text))
-                {
-                    Console.WriteLine("Файл пуст");
-                    return;
-                }
-
-                Console.WriteLine(text);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Console.WriteLine("Доступ к файлу запрещен");
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine($"Ошибка ввода: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка: {ex.Message}");
-            }
-        }
-
         public static void ChangeXmlAttributeXmlDocument(
             string filePath,
             string attributeName,
@@ -86,7 +71,7 @@
             int elementNumber,
             string newAttributeValue)
         {
-            ValidatePath(filePath);
+            Validators.ValidateFilePath(filePath);
             var doc = new XmlDocument();
             doc.Load(filePath);
 
@@ -122,7 +107,7 @@
             int elementNumber,
             string newAttributeValue)
         {
-            ValidatePath(filePath);
+            Validators.ValidateFilePath(filePath);
             XDocument? doc = XDocument.Load(filePath);
             var elements = doc.Descendants(elementWithAttributeName).ToList();
 
@@ -146,7 +131,7 @@
 
         public static string[] FindXmlAttributeXDocument(string filePath, string attributeName, string elementWithAttributeName)
         {
-            ValidatePath(filePath);
+            Validators.ValidateFilePath(filePath);
             XDocument doc = XDocument.Load(filePath);
             List<XAttribute> allAttributes = doc
                 .Descendants(elementWithAttributeName)
@@ -166,7 +151,7 @@
 
         public static string[] FindXmlAttributeXmlDocument(string filePath, string attributeName, string elementWithAttributeName)
         {
-            ValidatePath(filePath);
+            Validators.ValidateFilePath(filePath);
             var doc = new XmlDocument();
             doc.Load(filePath);
 
@@ -184,27 +169,6 @@
             }
 
             return attributeNames;
-        }
-
-        public static void ValidatePath(string filePath)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
-
-            if (!Path.IsPathFullyQualified(filePath))
-            {
-                throw new ArgumentException("Путь должен быть абсолютным", nameof(filePath));
-            }
-
-            if (Directory.Exists(filePath))
-            {
-                throw new ArgumentException("Данный путь указывает на директорию, а не на файл", nameof(filePath));
-            }
-
-            string? directory = Path.GetDirectoryName(filePath);
-            if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory))
-            {
-                throw new DirectoryNotFoundException("Директория файла отсутсвует");
-            }
         }
     }
 }

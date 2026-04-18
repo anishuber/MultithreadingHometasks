@@ -1,18 +1,18 @@
 ﻿using SerializationService;
 using System.Xml.Serialization;
 using CarLibrary;
+using Helpers;
 
 namespace ConsoleMenu
 {
     public class XmlSerializerHelper
     {
         private readonly List<Car> cars = new List<Car>();
-        private readonly string filePath = string.Empty;
+        private readonly string filePath;
 
         public XmlSerializerHelper(string filePath)
         {
-            this.CreateTemplateCarObjects();
-            XmlSerializationUtils.ValidatePath(filePath);
+            Validators.ValidateFilePath(filePath);
 
             this.filePath = filePath;
         }
@@ -30,54 +30,20 @@ namespace ConsoleMenu
 
         public void SerializeContents()
         {
-            this.SerializeContents<Car>(this.cars);
-        }
-
-        public void SerializeContents<T>(List<T> objectsToSerialize)
-        {
-            var serializer = new XmlSerializer(typeof(List<T>));
-
-            using (var stream = new FileStream(this.filePath, FileMode.Create, FileAccess.Write))
-            {
-                if (objectsToSerialize.Count > 0)
-                {
-                    serializer.Serialize(stream, objectsToSerialize);
-                    Console.WriteLine("Объекты сериализованы");
-                }
-                else
-                {
-                    Console.WriteLine("Объекты для сериализации отсутствуют");
-                }
-            }
-
-            this.PrintXml();
+            XmlSerializationUtils.SerializeObjectsFromList<Car>(this.filePath, this.cars);
         }
 
         public List<Car> DeserializeContents()
         {
-            return this.DeserializeContents<Car>();
-        }
-
-        public List<T> DeserializeContents<T>()
-        {
-            var serializer = new XmlSerializer(typeof(List<T>));
-
+            var serializer = new XmlSerializer(typeof(List<Car>));
             using var stream = new FileStream(this.filePath, FileMode.Open, FileAccess.Read);
-            var objectList = (List<T>?)serializer.Deserialize(stream);
 
-            if (objectList is not null && objectList.Count > 0)
-            {
-                Console.WriteLine("Объекты десериализованы");
-                return objectList;
-            }
-
-            Console.WriteLine("Файл пуст");
-            return new List<T>();
+            return XmlSerializationUtils.DeserializeObjectsFromXml<Car>(serializer, stream);
         }
 
         public void PrintXml()
         {
-            XmlSerializationUtils.PrintXml(this.filePath);
+            DisplayConsole.PrintFileContents(this.filePath);
         }
 
         public void FindXmlAttributeXDocument(string attributeName)
@@ -112,22 +78,7 @@ namespace ConsoleMenu
 
         public void PrintObjects()
         {
-            PrintObjects(this.cars);
-        }
-
-        private static void PrintObjects(List<Car> objects)
-        {
-            if (objects.Count > 0)
-            {
-                foreach (var car in objects)
-                {
-                    Console.WriteLine(car.PrintObject());
-                }
-            }
-            else
-            {
-                Console.WriteLine("Объекты отсутствуют");
-            }
+            DisplayConsole.PrintObjectsFromList(this.cars);
         }
     }
 }
