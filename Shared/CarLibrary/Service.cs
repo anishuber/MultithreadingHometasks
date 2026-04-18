@@ -2,11 +2,20 @@
 {
     public class Service
     {
+        public Service()
+        {
+        }
+
         public string Name { get; set; } = string.Empty;
 
         public string Address { get; set; } = string.Empty;
 
         private bool IsServiceWorking { get; set; }
+
+        public Service(string name, string address, bool isServiceWorking)
+        {
+            this.Create(name, address, isServiceWorking);
+        }
 
         public Service Create(string name, string address, bool isServiceWorking)
         {
@@ -22,8 +31,13 @@
 
         public string PrintObject()
         {
-            string status = IsServiceWorking ? "working" : "closed";
+            string status = this.IsServiceWorking ? "working" : "closed";
             return $"Service {this.Name}: {this.Address} ({status})";
+        }
+
+        public override string ToString()
+        {
+            return this.PrintObject();
         }
     }
 }

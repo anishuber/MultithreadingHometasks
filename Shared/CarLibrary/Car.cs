@@ -5,6 +5,15 @@
     [Serializable]
     public class Car
     {
+        public Car()
+        {
+        }
+
+        public Car(int vanId, string model, string plateNumber, CarType vehicleType)
+        {
+            this.Create(vanId, model, plateNumber, vehicleType);
+        }
+
         [XmlAttribute]
         public int VanId { get; set; }
 
@@ -34,6 +43,11 @@
         public string PrintObject()
         {
             return $"Vehicle {this.VanId} ({this.PlateNumber}): {this.Model}, {this.VehicleType}";
+        }
+
+        public override string ToString()
+        {
+            return this.PrintObject();
         }
     }
 }
