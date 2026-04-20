@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Car VanId="11" Model="Toyota RAV4" PlateNumber="AA1011BB" VehicleType="Suv" />
+  <Car VanId="12" Model="Honda CR-V" PlateNumber="AA1012BB" VehicleType="Suv" />
+  <Car VanId="13" Model="Nissan Qashqai" PlateNumber="AA1013BB" VehicleType="Crossover" />
+  <Car VanId="14" Model="Hyundai Tucson" PlateNumber="AA1014BB" VehicleType="Crossover" />
+  <Car VanId="15" Model="Ford F-150" PlateNumber="AA1015BB" VehicleType="Pickup" />
+  <Car VanId="16" Model="Toyota Hilux" PlateNumber="AA1016BB" VehicleType="Pickup" />
+  <Car VanId="17" Model="Mercedes-Benz Vito" PlateNumber="AA1017BB" VehicleType="Van" />
+  <Car VanId="18" Model="Volkswagen Transporter" PlateNumber="AA1018BB" VehicleType="Van" />
+  <Car VanId="19" Model="Chrysler Pacifica" PlateNumber="AA1019BB" VehicleType="Minivan" />
+  <Car VanId="20" Model="Renault Espace" PlateNumber="AA1020BB" VehicleType="Minivan" />
+</ArrayOfCar>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Car VanId="1" Model="Toyota Camry" PlateNumber="AA1001BB" VehicleType="Sedan" />
+  <Car VanId="2" Model="Honda Civic" PlateNumber="AA1002BB" VehicleType="Sedan" />
+  <Car VanId="3" Model="Ford Focus" PlateNumber="AA1003BB" VehicleType="Hatchback" />
+  <Car VanId="4" Model="Volkswagen Golf" PlateNumber="AA1004BB" VehicleType="Hatchback" />
+  <Car VanId="5" Model="BMW 4 Series" PlateNumber="AA1005BB" VehicleType="Coupe" />
+  <Car VanId="6" Model="Audi A5" PlateNumber="AA1006BB" VehicleType="Coupe" />
+  <Car VanId="7" Model="Mazda MX-5" PlateNumber="AA1007BB" VehicleType="Convertible" />
+  <Car VanId="8" Model="Ford Mustang" PlateNumber="AA1008BB" VehicleType="Convertible" />
+  <Car VanId="9" Model="Subaru Outback" PlateNumber="AA1009BB" VehicleType="Wagon" />
+  <Car VanId="10" Model="Volvo V60" PlateNumber="AA1010BB" VehicleType="Wagon" />
+</ArrayOfCar>

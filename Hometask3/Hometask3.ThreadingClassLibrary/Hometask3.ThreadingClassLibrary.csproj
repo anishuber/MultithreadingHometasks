@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\CarLibrary\CarLibrary.csproj" />
+    <ProjectReference Include="..\..\Shared\SerializationService\SerializationService.csproj" />
+    <ProjectReference Include="..\..\Shared\ThreadingService\ThreadingService.csproj" />
+  </ItemGroup>
+
+</Project>
