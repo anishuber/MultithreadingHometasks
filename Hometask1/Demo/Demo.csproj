@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarConsoleApp\CarMetadataViewer.csproj" />
-    <ProjectReference Include="..\CarCreationConsoleApp\CarCreation.csproj" />
     <ProjectReference Include="..\CarCreation\CarCreation.csproj" />
     <ProjectReference Include="..\CarMetadataViewer\CarMetadataViewer.csproj" />
     <ProjectReference Include="..\InteractiveMethodInvocation\InteractiveMethodInvocation.csproj" />

@@ -1,7 +1,15 @@
 ﻿namespace Helpers
 {
+    /// <summary>
+    /// Validation helpers for file and directory paths used across the project.
+    /// </summary>
     public static class Validators
     {
+        /// <summary>
+        /// Validates that the supplied directory path is non-empty, absolute, and exists.
+        /// </summary>
+        /// <param name="directory">Directory path to validate.</param>
+        /// <exception cref="ArgumentException">Thrown when the path is null/whitespace, not absolute, or does not exist.</exception>
         public static void ValidateDirectoryPath(string? directory)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(directory);
@@ -17,6 +25,13 @@
             }
         }
 
+        /// <summary>
+        /// Validates that the supplied file path is non-empty, absolute and points to a file (not a directory).
+        /// Also validates that the file's directory exists.
+        /// </summary>
+        /// <param name="filePath">File path to validate.</param>
+        /// <exception cref="ArgumentException">Thrown when the path is null/whitespace, not absolute, points to a directory,
+        /// or the containing directory does not exist.</exception>
         public static void ValidateFilePath(string? filePath)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(filePath);

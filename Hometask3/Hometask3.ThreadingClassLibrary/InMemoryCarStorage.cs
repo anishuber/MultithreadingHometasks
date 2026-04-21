@@ -3,8 +3,14 @@ using CarLibrary;
 
 namespace Hometask3.ThreadingClassLibrary
 {
+    /// <summary>
+    /// Provides an in-memory collection of sample <see cref="Car"/> instances used by demo tasks and tests.
+    /// </summary>
     public static class InMemoryCarStorage
     {
+        /// <summary>
+        /// Pre-populated list of sample cars used for serialization/demonstration.
+        /// </summary>
         public static List<Car> Cars { get; } = new List<Car>
         {
             new Car { VanId = 1, Model = "Toyota Camry", PlateNumber = "AA1001BB", VehicleType = CarType.Sedan },

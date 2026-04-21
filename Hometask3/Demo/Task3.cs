@@ -3,8 +3,15 @@ using Helpers;
 
 namespace Demo
 {
-    public class Task3
+    /// <summary>
+    /// Demo task 3: compares reading a file with different thread counts and prints timings and results.
+    /// </summary>
+    public static class Task3
     {
+        /// <summary>
+        /// Executes task 3: runs file-read scenarios (1, 2, and 10 threads) and prints timing and content.
+        /// </summary>
+        /// <param name="path">Path to the file to read in the benchmarks.</param>
         public static void Run(string path)
         {
             Console.WriteLine("Running task 3");

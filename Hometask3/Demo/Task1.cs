@@ -4,8 +4,14 @@ using Helpers;
 
 namespace Demo
 {
-    public class Task1
+    /// <summary>
+    /// Demo task 1: serializes the in-memory car list into chunked XML files and prints each chunk's contents.
+    /// </summary>
+    public static class Task1
     {
+        /// <summary>
+        /// Executes task 1: serialize sample cars in parallel and print the resulting files' contents.
+        /// </summary>
         public static void Run()
         {
             Console.WriteLine("Running task 1\n");

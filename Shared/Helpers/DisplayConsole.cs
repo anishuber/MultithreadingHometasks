@@ -1,7 +1,15 @@
 ﻿namespace Helpers
 {
+    /// <summary>
+    /// Console helper methods for printing files and collections to standard output.
+    /// </summary>
     public static class DisplayConsole
     {
+        /// <summary>
+        /// Prints the contents of the specified file to the console.
+        /// Catches common IO errors and prints localized error messages.
+        /// </summary>
+        /// <param name="filePath">Path to the file to print.</param>
         public static void PrintFileContents(string filePath)
         {
             Validators.ValidateFilePath(filePath);
@@ -32,6 +40,11 @@
             }
         }
 
+        /// <summary>
+        /// Prints each object from a list to the console using its <see cref="object.ToString"/> representation.
+        /// </summary>
+        /// <typeparam name="T">Type of objects in the list.</typeparam>
+        /// <param name="objects">List of objects to print.</param>
         public static void PrintObjectsFromList<T>(List<T> objects)
         {
             ArgumentNullException.ThrowIfNull(objects);

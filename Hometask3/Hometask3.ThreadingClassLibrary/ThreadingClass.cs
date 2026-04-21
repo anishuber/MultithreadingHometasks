@@ -6,12 +6,25 @@ using ThreadingService;
 
 namespace Hometask3.ThreadingClassLibrary
 {
+    /// <summary>
+    /// Utility class providing methods for parallel serialization and multi-threaded file operations.
+    /// </summary>
     public class ThreadingClass
     {
         private readonly object _lock = new();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThreadingClass"/> class.
+        /// </summary>
         public ThreadingClass() { }
 
+        /// <summary>
+        /// Serializes objects from a list in parallel into separate files (chunks).
+        /// </summary>
+        /// <typeparam name="T">Type of objects to serialize.</typeparam>
+        /// <param name="objects">List of objects to serialize.</param>
+        /// <param name="directory">Directory in which chunk files will be created.</param>
+        /// <returns>Array of filenames created for the serialized chunks.</returns>
         public static string[] SerializeObjectsParallel<T>(List<T> objects, string directory)
         {
             ArgumentNullException.ThrowIfNull(objects);
@@ -32,15 +45,29 @@ namespace Hometask3.ThreadingClassLibrary
             return resultFiles.ToArray();
         }
 
-        public string ReadObjectsParallel<T>(string file1, string file2)
+        /// <summary>
+        /// Reads two XML files concurrently, merges their serialized elements into a single XML result file,
+        /// and returns the resulting file path. Thread synchronization ensures elements are written alternately.
+        /// </summary>
+        /// <typeparam name="T">Type of elements in the XML files.</typeparam>
+        /// <param name="file1">Path to the first input XML file.</param>
+        /// <param name="file2">Path to the second input XML file.</param>
+        /// <param name="resultFileName">Name of the resulting merged file.</param>
+        /// <returns>Path to the merged XML file created in the project's SerializedObjects directory.</returns>
+        public string ReadObjectsParallel<T>(string file1, string file2, string resultFileName)
         {
             var serializer = new XmlSerializer(typeof(T));
-            string resultFileName = "resultFile.xml";
-            string resultFilePath = Path.Combine(Directory.GetCurrentDirectory(), resultFileName);
+            string resultFilePath = Path.Combine(Path.Combine(
+                Directory.GetCurrentDirectory(),
+                @"..\..\..\..",
+                "SerializedObjects"), resultFileName);
 
             using XmlReader reader1 = XmlReader.Create(file1);
             using XmlReader reader2 = XmlReader.Create(file2);
-            using XmlWriter writer = XmlWriter.Create(resultFileName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(resultFilePath)!);
+
+            using XmlWriter writer = XmlWriter.Create(resultFilePath);
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Root");
@@ -112,22 +139,38 @@ namespace Hometask3.ThreadingClassLibrary
 
             writer.WriteEndElement();
             writer.WriteEndDocument();
+            writer.Flush();
 
             return resultFilePath;
         }
 
+        /// <summary>
+        /// Reads a file using a single thread and returns its contents.
+        /// </summary>
+        /// <param name="filePath">Path to the file to read.</param>
+        /// <returns>File contents as a string.</returns>
         public static string ReadFileOneThread(string filePath)
         {
             string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 1);
             return result;
         }
 
+        /// <summary>
+        /// Reads a file using two threads and returns its contents.
+        /// </summary>
+        /// <param name="filePath">Path to the file to read.</param>
+        /// <returns>File contents as a string.</returns>
         public static string ReadFileTwoThreads(string filePath)
         {
             string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 2);
             return result;
         }
 
+        /// <summary>
+        /// Reads a file using ten threads and a semaphore to limit concurrency, then returns its contents.
+        /// </summary>
+        /// <param name="filePath">Path to the file to read.</param>
+        /// <returns>File contents as a string.</returns>
         public static string ReadFileTenThreads(string filePath)
         {
             SemaphoreSlim semaphore = new SemaphoreSlim(5, 5);

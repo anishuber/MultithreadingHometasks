@@ -2,8 +2,18 @@
 
 namespace Helpers
 {
+    /// <summary>
+    /// Helper methods for measuring execution performance of code blocks.
+    /// </summary>
     public static class Performance
     {
+        /// <summary>
+        /// Measures execution time of the supplied method, writes timing information to the console,
+        /// and returns the method result.
+        /// </summary>
+        /// <typeparam name="T">Return type of the measured method.</typeparam>
+        /// <param name="method">Delegate representing the method to measure. Must not be null.</param>
+        /// <returns>The value returned by the executed method.</returns>
         public static T MeasurePerformance<T>(Func<T> method)
         {
             ArgumentNullException.ThrowIfNull(method);

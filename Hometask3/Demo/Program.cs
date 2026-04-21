@@ -1,8 +1,14 @@
 ﻿namespace Demo
 {
+    /// <summary>
+    /// Program entry point for the demo application.
+    /// </summary>
     public static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Main entry point. Executes demo tasks in order.
+        /// </summary>
+        public static void Main()
         {
             Task1.Run();
             var path = Task2.Run();
