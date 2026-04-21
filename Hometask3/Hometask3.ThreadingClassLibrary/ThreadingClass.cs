@@ -1,4 +1,5 @@
-﻿using SerializationService;
+﻿using Helpers;
+using SerializationService;
 using System.Collections.Concurrent;
 using System.Xml;
 using System.Xml.Serialization;
@@ -28,7 +29,8 @@ namespace Hometask3.ThreadingClassLibrary
         public static string[] SerializeObjectsParallel<T>(List<T> objects, string directory)
         {
             ArgumentNullException.ThrowIfNull(objects);
-            ArgumentException.ThrowIfNullOrWhiteSpace(directory);
+
+            Validators.ValidateDirectoryPath(directory);
 
             var ranges = Partitioner.Create(0, objects.Count, 10);
             ConcurrentBag<string> resultFiles = new ConcurrentBag<string>();
@@ -56,6 +58,11 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>Path to the merged XML file created in the project's SerializedObjects directory.</returns>
         public string ReadObjectsParallel<T>(string file1, string file2, string resultFileName)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(resultFileName);
+
+            Validators.ValidateFilePath(file1);
+            Validators.ValidateFilePath(file2);
+
             var serializer = new XmlSerializer(typeof(T));
             string resultFilePath = Path.Combine(Path.Combine(
                 Directory.GetCurrentDirectory(),
@@ -151,6 +158,7 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>File contents as a string.</returns>
         public static string ReadFileOneThread(string filePath)
         {
+            Validators.ValidateFilePath(filePath);
             string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 1);
             return result;
         }
@@ -162,6 +170,7 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>File contents as a string.</returns>
         public static string ReadFileTwoThreads(string filePath)
         {
+            Validators.ValidateFilePath(filePath);
             string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 2);
             return result;
         }
@@ -173,6 +182,7 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>File contents as a string.</returns>
         public static string ReadFileTenThreads(string filePath)
         {
+            Validators.ValidateFilePath(filePath);
             SemaphoreSlim semaphore = new SemaphoreSlim(5, 5);
             string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 10, semaphore);
 

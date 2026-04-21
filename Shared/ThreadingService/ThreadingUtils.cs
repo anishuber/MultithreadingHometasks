@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Helpers;
 
 namespace ThreadingService
 {
@@ -16,6 +17,12 @@ namespace ThreadingService
         /// <returns>Byte array containing the requested file segment.</returns>
         public static byte[] ReadFilePart(string filePath, long startPosition, long lengthToRead)
         {
+            ArgumentNullException.ThrowIfNull(filePath);
+            Validators.ValidateFilePath(filePath);
+
+            ArgumentOutOfRangeException.ThrowIfNegative(startPosition);
+            ArgumentOutOfRangeException.ThrowIfNegative(lengthToRead);
+
             byte[] buffer = new byte[lengthToRead];
 
             using FileStream stream = new FileStream(
@@ -57,6 +64,8 @@ namespace ThreadingService
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(threadCount);
+
+            Validators.ValidateFilePath(filePath);
 
             long fileLength = new FileInfo(filePath).Length;
             long batchSize = fileLength / threadCount;

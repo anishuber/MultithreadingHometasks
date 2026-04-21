@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CarLibrary;
+﻿using CarLibrary;
 
 namespace Hometask3.ThreadingClassLibrary
 {

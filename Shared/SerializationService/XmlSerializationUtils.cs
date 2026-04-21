@@ -24,6 +24,9 @@ namespace SerializationService
         /// <returns>Deserialized instance of <typeparamref name="T"/> or default if no element is available.</returns>
         public static T? DeserializeObjectFromXml<T>(XmlReader reader, XmlSerializer serializer)
         {
+            ArgumentNullException.ThrowIfNull(reader);
+            ArgumentNullException.ThrowIfNull(serializer);
+
             while (reader.NodeType == XmlNodeType.Whitespace)
             {
                 reader.Read();
@@ -56,6 +59,9 @@ namespace SerializationService
         /// <returns>Deserialized list of objects; an empty list if file contained no objects.</returns>
         public static List<T> DeserializeObjectsFromXml<T>(XmlSerializer serializer, FileStream fileStream)
         {
+            ArgumentNullException.ThrowIfNull(serializer);
+            ArgumentNullException.ThrowIfNull(fileStream);
+
             var objectList = (List<T>?)serializer.Deserialize(fileStream);
 
             if (objectList is not null && objectList.Count > 0)
@@ -76,6 +82,11 @@ namespace SerializationService
         /// <param name="objectsToSerialize">List of objects to write.</param>
         public static void SerializeObjectsFromList<T>(string filePath, List<T> objectsToSerialize)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+            ArgumentNullException.ThrowIfNull(objectsToSerialize);
+
+            Validators.ValidateFilePath(filePath);
+
             var serializer = new XmlSerializer(typeof(List<T>));
 
             using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
@@ -105,6 +116,11 @@ namespace SerializationService
             int elementNumber,
             string newAttributeValue)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+            ArgumentException.ThrowIfNullOrWhiteSpace(attributeName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(elementWithAttributeName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(newAttributeValue);
+
             Validators.ValidateFilePath(filePath);
             var doc = new XmlDocument();
             doc.Load(filePath);
@@ -149,6 +165,11 @@ namespace SerializationService
             int elementNumber,
             string newAttributeValue)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+            ArgumentException.ThrowIfNullOrWhiteSpace(attributeName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(elementWithAttributeName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(newAttributeValue);
+
             Validators.ValidateFilePath(filePath);
             XDocument? doc = XDocument.Load(filePath);
             var elements = doc.Descendants(elementWithAttributeName).ToList();
@@ -180,6 +201,10 @@ namespace SerializationService
         /// <returns>Array of attribute values (one per found element).</returns>
         public static string[] FindXmlAttributeXDocument(string filePath, string attributeName, string elementWithAttributeName)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+            ArgumentException.ThrowIfNullOrWhiteSpace(attributeName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(elementWithAttributeName);
+
             Validators.ValidateFilePath(filePath);
             XDocument doc = XDocument.Load(filePath);
             List<XAttribute> allAttributes = doc
@@ -207,6 +232,10 @@ namespace SerializationService
         /// <returns>Array of attribute values (one per element index in the XML).</returns>
         public static string[] FindXmlAttributeXmlDocument(string filePath, string attributeName, string elementWithAttributeName)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+            ArgumentException.ThrowIfNullOrWhiteSpace(attributeName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(elementWithAttributeName);
+
             Validators.ValidateFilePath(filePath);
             var doc = new XmlDocument();
             doc.Load(filePath);
