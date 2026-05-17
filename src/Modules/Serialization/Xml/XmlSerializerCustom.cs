@@ -12,7 +12,7 @@ namespace Serialization.Xml
             ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
             ArgumentNullException.ThrowIfNull(objectsToSerialize);
 
-           PathValidator.ValidateFilePath(filePath);
+           PathValidator.ValidateOrCreateFilePath(filePath);
 
             var serializer = new XmlSerializer(typeof(List<T>));
 

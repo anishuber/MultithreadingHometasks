@@ -5,15 +5,15 @@ using Samples.Storages;
 
 namespace Scenarios
 {
-    public sealed class ThreadingScenario
+    public static class ThreadingScenario
     {
         public static void RunTask1()
         {
             Console.WriteLine("Running task 1\n");
             string directoryPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                @"..\..\..\..",
-                "SerializedObjects");
+                @"..\..\..\..\..\..\..",
+                "artifacts");
 
             PathValidator.ValidateDirectoryPath(directoryPath);
 
@@ -31,12 +31,11 @@ namespace Scenarios
         public static string RunTask2()
         {
             Console.WriteLine("\nRunning task 2\n");
-            ThreadingClass tc = new ThreadingClass();
 
             string directoryPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                @"..\..\..\..",
-                "SerializedObjects");
+                @"..\..\..\..\..\..\..",
+                "artifacts");
 
             PathValidator.ValidateDirectoryPath(directoryPath);
 
@@ -49,7 +48,7 @@ namespace Scenarios
                 .Take(2)
                 .ToArray();
 
-            var resultFilePath = tc.ReadObjectsParallel<Car>(files[0], files[1], resultFileName);
+            var resultFilePath = ThreadingClass.SerializeObjectsParallelThreads<Car>(files[0], files[1], resultFileName);
             PrintFile(resultFilePath);
 
             return resultFilePath;

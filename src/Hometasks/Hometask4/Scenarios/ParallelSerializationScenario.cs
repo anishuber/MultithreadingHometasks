@@ -1,4 +1,5 @@
 ﻿using Common.IO;
+using FileReading.Concurrent.Common;
 using Serialization.Xml;
 using System.Collections.Concurrent;
 using System.Xml;
@@ -8,8 +9,6 @@ namespace Scenarios
 {
     public class ParallelSerializationScenario
     {
-        private readonly object _lock = new();
-
         public static string[] SerializeObjectsWithTasks<T>(List<T> objects, string directory)
         {
             ArgumentNullException.ThrowIfNull(objects);
@@ -43,18 +42,17 @@ namespace Scenarios
                 .ToArray();
         }
 
-        public string ReadObjectsWithTasks<T>(string file1, string file2, string resultFileName)
+        public static string SerializeObjectsParallelTasks<T>(string file1, string file2, string resultFileName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(resultFileName);
 
             PathValidator.ValidateFilePath(file1);
             PathValidator.ValidateFilePath(file2);
 
-            var serializer = new XmlSerializer(typeof(T));
-
             string resultFilePath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                @"..\..\..\..",
+                @"..\..\..\..\..\..\..",
+                "artifacts",
                 "SerializedObjects",
                 resultFileName);
 
@@ -64,6 +62,9 @@ namespace Scenarios
             using XmlReader reader2 = XmlReader.Create(file2);
             using XmlWriter writer = XmlWriter.Create(resultFilePath);
 
+            var serializer = new XmlSerializer(typeof(T));
+            var turn = new TurnBasedSerializer<T>();
+
             writer.WriteStartDocument();
             writer.WriteStartElement("Root");
 
@@ -71,62 +72,20 @@ namespace Scenarios
             using var turn2 = new ManualResetEventSlim(false);
 
             Task task1 = Task.Run(() =>
-            {
-                reader1.MoveToContent();
-                reader1.ReadStartElement();
-
-                while (true)
-                {
-                    turn1.Wait();
-
-                    T? elem = XmlSerializerCustom.DeserializeObjectFromXml<T>(
-                        reader1,
-                        serializer);
-
-                    if (elem is null)
-                    {
-                        turn2.Set();
-                        break;
-                    }
-
-                    lock (_lock)
-                    {
-                        serializer.Serialize(writer, elem);
-                    }
-
-                    turn1.Reset();
-                    turn2.Set();
-                }
-            });
+                turn.MergeFilesByTurn(
+                    reader1,
+                    serializer,
+                    writer,
+                    turn1,
+                    turn2));
 
             Task task2 = Task.Run(() =>
-            {
-                reader2.MoveToContent();
-                reader2.ReadStartElement();
-
-                while (true)
-                {
-                    turn2.Wait();
-
-                    T? elem = XmlSerializerCustom.DeserializeObjectFromXml<T>(
-                        reader2,
-                        serializer);
-
-                    if (elem is null)
-                    {
-                        turn1.Set();
-                        break;
-                    }
-
-                    lock (_lock)
-                    {
-                        serializer.Serialize(writer, elem);
-                    }
-
-                    turn2.Reset();
-                    turn1.Set();
-                }
-            });
+                turn.MergeFilesByTurn(
+                    reader2,
+                    serializer,
+                    writer,
+                    turn2,
+                    turn1));
 
             Task.WaitAll(task1, task2);
 

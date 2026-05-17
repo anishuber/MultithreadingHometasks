@@ -31,10 +31,8 @@ public static class PathValidator
     /// </summary>
     /// <param name="filePath">File path to validate.</param>
     /// <exception cref="ArgumentException">Thrown when the path is null/whitespace, not absolute, points to a directory</exception>
-    public static void ValidateFilePath(string? filePath)
+    public static void ValidateFilePath(string filePath)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
-
         if (!Path.IsPathFullyQualified(filePath))
         {
             throw new ArgumentException("The path should be absolute.", nameof(filePath));
@@ -56,10 +54,27 @@ public static class PathValidator
         {
             throw new ArgumentException("The file path must include a file name.", nameof(filePath));
         }
+    }
+
+    public static void ValidateExistingFilePath(string? filePath)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+        ValidateFilePath(filePath);
 
         if (!File.Exists(filePath))
         {
             throw new FileNotFoundException("The file does not exist.", filePath);
+        }
+    }
+
+    public static void ValidateOrCreateFilePath(string? filePath)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+        ValidateFilePath(filePath);
+
+        if (!File.Exists(filePath))
+        {
+            File.Create(filePath).Dispose();
         }
     }
 }

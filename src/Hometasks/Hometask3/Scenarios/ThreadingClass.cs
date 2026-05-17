@@ -1,23 +1,23 @@
-﻿using Helpers;
-using SerializationService;
+﻿using Common.IO;
+using FileReading.Concurrent.Abstractions;
+using FileReading.Concurrent.Common;
+using FileReading.Concurrent.Threads;
+using Serialization.Xml;
 using System.Collections.Concurrent;
 using System.Xml;
 using System.Xml.Serialization;
-using ThreadingService;
 
-namespace Hometask3.ThreadingClassLibrary
+namespace Scenarios
 {
     /// <summary>
     /// Utility class providing methods for parallel serialization and multi-threaded file operations.
     /// </summary>
     public class ThreadingClass
     {
-        private readonly object _lock = new();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadingClass"/> class.
         /// </summary>
-        public ThreadingClass() { }
+        protected ThreadingClass() { }
 
         /// <summary>
         /// Serializes objects from a list in parallel into separate files (chunks).
@@ -28,9 +28,9 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>Array of filenames created for the serialized chunks.</returns>
         public static string[] SerializeObjectsParallel<T>(List<T> objects, string directory)
         {
-            ArgumentNullException.ThrowIfNull(objects); 
+            ArgumentNullException.ThrowIfNull(objects);
 
-            Validators.ValidateDirectoryPath(directory);
+            PathValidator.ValidateDirectoryPath(directory);
 
             var ranges = Partitioner.Create(0, objects.Count, 10);
             ConcurrentBag<string> resultFiles = new ConcurrentBag<string>();
@@ -41,7 +41,7 @@ namespace Hometask3.ThreadingClassLibrary
                 string curFileName = $"serializedobjects_{range.Item1}_{range.Item2 - range.Item1}.xml";
                 resultFiles.Add(curFileName);
                 string curChunkPath = Path.Combine(directory, curFileName);
-                XmlSerializationUtils.SerializeObjectsFromList(curChunkPath, chunk);
+                XmlSerializerCustom.SerializeObjectsFromList(curChunkPath, chunk);
             });
 
             return resultFiles.ToArray();
@@ -56,87 +56,57 @@ namespace Hometask3.ThreadingClassLibrary
         /// <param name="file2">Path to the second input XML file.</param>
         /// <param name="resultFileName">Name of the resulting merged file.</param>
         /// <returns>Path to the merged XML file created in the project's SerializedObjects directory.</returns>
-        public string ReadObjectsParallel<T>(string file1, string file2, string resultFileName)
+        public static string SerializeObjectsParallelThreads<T>(
+            string file1,
+            string file2,
+            string resultFileName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(resultFileName);
 
-            Validators.ValidateFilePath(file1);
-            Validators.ValidateFilePath(file2);
+            PathValidator.ValidateFilePath(file1);
+            PathValidator.ValidateFilePath(file2);
 
             var serializer = new XmlSerializer(typeof(T));
-            string resultFilePath = Path.Combine(Path.Combine(
-                Directory.GetCurrentDirectory(),
-                @"..\..\..\..",
-                "SerializedObjects"), resultFileName);
 
-            using XmlReader reader1 = XmlReader.Create(file1);
-            using XmlReader reader2 = XmlReader.Create(file2);
+            string resultFilePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                @"..\..\..\..\..\..\..",
+                "artifacts",
+                resultFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(resultFilePath)!);
 
+            using XmlReader reader1 = XmlReader.Create(file1);
+            using XmlReader reader2 = XmlReader.Create(file2);
             using XmlWriter writer = XmlWriter.Create(resultFilePath);
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Root");
 
-            var turn1 = new ManualResetEvent(true);
-            var turn2 = new ManualResetEvent(false);
+            using var turn1 = new ManualResetEventSlim(true);
+            using var turn2 = new ManualResetEventSlim(false);
 
-            Thread thread1 = new Thread(() =>
-                {
-                    reader1.MoveToContent();
-                    reader1.ReadStartElement();
+            var turnBasedSerializer = new TurnBasedSerializer<T>();
 
-                    while (true)
-                    {
-                        turn1.WaitOne();
+            Thread thread1 = new(() =>
+            {
+                turnBasedSerializer.MergeFilesByTurn(
+                    reader1,
+                    serializer,
+                    writer,
+                    turn1,
+                    turn2);
+            });
 
-                        T? elem = XmlSerializationUtils.DeserializeObjectFromXml<T>(reader1, serializer);
-
-                        if (elem is null)
-                        {
-                            turn2.Set();
-                            break;
-                        }
-
-                        lock (_lock)
-                        {
-                            serializer.Serialize(writer, elem);
-                        }
-
-                        turn1.Reset();
-                        turn2.Set();
-                    }
-                }
-            );
-
-            Thread thread2 = new Thread(() =>
-                {
-                    reader2.MoveToContent();
-                    reader2.ReadStartElement();
-
-                    while (true)
-                    {
-                        turn2.WaitOne();
-
-                        T? elem = XmlSerializationUtils.DeserializeObjectFromXml<T>(reader2, serializer);
-
-                        if (elem is null)
-                        {
-                            turn1.Set();
-                            break;
-                        }
-
-                        lock (_lock)
-                        {
-                            serializer.Serialize(writer, elem);
-                        }
-
-                        turn2.Reset();
-                        turn1.Set();
-                    }    
-                }
-            );
+            Thread thread2 = new(() =>
+            {
+                turnBasedSerializer.MergeFilesByTurn(
+                    reader2,
+                    serializer,
+                    writer,
+                    turn2,
+                    turn1);
+            });
 
             thread1.Start();
             thread2.Start();
@@ -158,8 +128,11 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>File contents as a string.</returns>
         public static string ReadFileOneThread(string filePath)
         {
-            Validators.ValidateFilePath(filePath);
-            string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 1);
+            PathValidator.ValidateFilePath(filePath);
+
+            var options = new FileReadOptions {WorkerCount = 1 };
+
+            string result = ThreadFileReader.ReadAllText(filePath, options);
             return result;
         }
 
@@ -170,8 +143,11 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>File contents as a string.</returns>
         public static string ReadFileTwoThreads(string filePath)
         {
-            Validators.ValidateFilePath(filePath);
-            string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 2);
+            PathValidator.ValidateFilePath(filePath);
+
+            var options = new FileReadOptions { WorkerCount = 2 };
+
+            string result = ThreadFileReader.ReadAllText(filePath, options);
             return result;
         }
 
@@ -182,10 +158,11 @@ namespace Hometask3.ThreadingClassLibrary
         /// <returns>File contents as a string.</returns>
         public static string ReadFileTenThreads(string filePath)
         {
-            Validators.ValidateFilePath(filePath);
-            SemaphoreSlim semaphore = new SemaphoreSlim(5, 5);
-            string result = ThreadingUtils.ReadFileMultipleThreads(filePath, 10, semaphore);
+            PathValidator.ValidateFilePath(filePath);
 
+            var options = new FileReadOptions { WorkerCount = 10, MaxConcurrency = 5 };
+
+            string result = ThreadFileReader.ReadAllText(filePath, options);
             return result;
         }
     }
