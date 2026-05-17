@@ -25,6 +25,8 @@ public static class PathValidator
         }
     }
 
+    // TODO: make private after refactoring the code to use ValidateExistingFilePath and ValidateOrCreateFilePath instead of ValidateFilePath.
+
     /// <summary>
     /// Validates that the supplied file path is non-empty, absolute and points to a file (not a directory).
     /// Also validates that the file's directory exists.
@@ -56,6 +58,13 @@ public static class PathValidator
         }
     }
 
+    /// <summary>
+    /// Validates that the supplied file path is non-empty, absolute and points to a file (not a directory).
+    /// Also validates that the file's directory exists. If the file does not exist, an exception is thrown.
+    /// </summary>
+    /// <param name="filePath">File path to validate.</param>
+    /// <exception cref="ArgumentException">Thrown when the path is null/whitespace, not absolute, points to a directory</exception>
+    /// <exception cref="FileNotFoundException">Thrown when the file does not exist.</exception>
     public static void ValidateExistingFilePath(string? filePath)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
@@ -67,6 +76,12 @@ public static class PathValidator
         }
     }
 
+    /// <summary>
+    /// Validates that the supplied file path is non-empty, absolute and points to a file (not a directory).
+    /// Also validates that the file's directory exists. If the file does not exist, it will be created.
+    /// </summary>
+    /// <param name="filePath">File path to validate.</param>
+    /// <exception cref="ArgumentException">Thrown when the path is null/whitespace, not absolute, points to a directory</exception>
     public static void ValidateOrCreateFilePath(string? filePath)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(filePath);

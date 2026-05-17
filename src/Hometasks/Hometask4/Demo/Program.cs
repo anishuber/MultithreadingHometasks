@@ -1,11 +1,14 @@
-﻿namespace Demo
+﻿using Scenarios;
+
+namespace Demo
 {
-    internal class Program
+    internal static class Program
     {
-        //TODO: write demonstration
-        static void Main(string[] args)
+        static async Task Main()
         {
-            Console.WriteLine("Hello, World!");
+            TaskScenario.RunTask1();
+            var filePath = TaskScenario.RunTask2();
+            await TaskScenario.RunTask3(filePath);
         }
     }
 }

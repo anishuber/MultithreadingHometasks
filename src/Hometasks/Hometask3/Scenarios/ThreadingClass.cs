@@ -56,7 +56,7 @@ namespace Scenarios
         /// <param name="file2">Path to the second input XML file.</param>
         /// <param name="resultFileName">Name of the resulting merged file.</param>
         /// <returns>Path to the merged XML file created in the project's SerializedObjects directory.</returns>
-        public static string SerializeObjectsParallelThreads<T>(
+        public static string SerializeObjectsInTurns<T>(
             string file1,
             string file2,
             string resultFileName)

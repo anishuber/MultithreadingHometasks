@@ -1,5 +1,6 @@
 ﻿using Common.IO;
 using FileReading.Concurrent.Common;
+using FileReading.Concurrent.Tasks;
 using Serialization.Xml;
 using System.Collections.Concurrent;
 using System.Xml;
@@ -7,9 +8,9 @@ using System.Xml.Serialization;
 
 namespace Scenarios
 {
-    public class ParallelSerializationScenario
+    public static class TaskClass
     {
-        public static string[] SerializeObjectsWithTasks<T>(List<T> objects, string directory)
+        public static string[] SerializeObjectsParallel<T>(List<T> objects, string directory)
         {
             ArgumentNullException.ThrowIfNull(objects);
 
@@ -42,7 +43,7 @@ namespace Scenarios
                 .ToArray();
         }
 
-        public static string SerializeObjectsParallelTasks<T>(string file1, string file2, string resultFileName)
+        public static string SerializeObjectsInTurns<T>(string file1, string file2, string resultFileName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(resultFileName);
 
@@ -94,6 +95,18 @@ namespace Scenarios
             writer.Flush();
 
             return resultFilePath;
+        }
+
+        public static async Task ReadAndPrintFileAsync(string file3Path)
+        {
+            Task<string> readTask = TaskFileReader.ReadAllTextAsync(file3Path);
+
+            Task printTask = readTask.ContinueWith(task =>
+            {
+                Console.WriteLine(task.Result);
+            });
+
+            await Task.WhenAll(readTask, printTask);
         }
     }
 }

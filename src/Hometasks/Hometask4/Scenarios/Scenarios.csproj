@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\..\Common\Common.IO\Common.IO.csproj" />
     <ProjectReference Include="..\..\..\Modules\FileReading\FileReading.Concurrent\FileReading.Concurrent.csproj" />
     <ProjectReference Include="..\..\..\Modules\Serialization\Serialization.csproj" />
+    <ProjectReference Include="..\..\..\Samples\Samples.csproj" />
   </ItemGroup>
 
 </Project>

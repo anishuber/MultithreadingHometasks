@@ -1,11 +1,12 @@
-﻿using Common.Diagnostics;
-using Common.IO;
+﻿using Common.IO;
+using FileReading.Concurrent.Tasks;
 using Samples.CarLibrary;
 using Samples.Storages;
 
 namespace Scenarios
 {
-    public static class ThreadingScenario
+    // TODO: extract common functionality to interface?
+    public static class TaskScenario
     {
         public static void RunTask1()
         {
@@ -19,7 +20,7 @@ namespace Scenarios
 
             var carObjects = InMemoryCarStorage.Cars.ToList();
 
-            var resultFiles = ThreadingClass.SerializeObjectsParallel<Car>(carObjects, directoryPath);
+            var resultFiles = TaskClass.SerializeObjectsParallel(carObjects, directoryPath);
 
             foreach (var file in resultFiles)
             {
@@ -48,38 +49,29 @@ namespace Scenarios
                 .Take(2)
                 .ToArray();
 
-            var resultFilePath = ThreadingClass.SerializeObjectsInTurns<Car>(files[0], files[1], resultFileName);
+            var resultFilePath = TaskClass.SerializeObjectsInTurns<Car>(files[0], files[1], resultFileName);
             PrintFile(resultFilePath);
 
             return resultFilePath;
-        }
-
-        public static void RunTask3(string path)
-        {
-            Console.WriteLine("Running task 3");
-            Console.WriteLine("\nOne thread read running: ");
-            (string res1, TimeSpan elapsed1) = Performance.Measure<string>(() => ThreadingClass.ReadFileOneThread(path));
-            Console.WriteLine(res1);
-            Console.WriteLine(elapsed1.Seconds);
-            Console.WriteLine(elapsed1.Ticks);
-
-            Console.WriteLine("\nTwo thread read running: ");
-            (string res2, TimeSpan elapsed2) = Performance.Measure<string>(() => ThreadingClass.ReadFileTwoThreads(path));
-            Console.WriteLine(res2);
-            Console.WriteLine(elapsed2.Seconds);
-            Console.WriteLine(elapsed2.Ticks);
-
-            Console.WriteLine("\nThree thread read running: ");
-            (string res3, TimeSpan elapsed3) = Performance.Measure<string>(() => ThreadingClass.ReadFileTenThreads(path));
-            Console.WriteLine(res3);
-            Console.WriteLine(elapsed3.Seconds);
-            Console.WriteLine(elapsed3.Ticks);
         }
 
         public static void PrintFile(string filePath)
         {
             FileAccessValidator.TryReadFile(filePath, out string contents);
             Console.WriteLine(contents);
+        }
+
+        public static async Task RunTask3(string filePath)
+        {
+            try
+            {
+                string contents = await TaskFileReader.ReadAllTextAsync(filePath);
+                Console.WriteLine(contents);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while reading the file: {ex.Message}");
+            }
         }
     }
 }
