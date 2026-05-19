@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\ReflectionService\ReflectionService.csproj" />
+    <ProjectReference Include="..\..\..\Modules\Reflection\Reflection.csproj" />
+    <ProjectReference Include="..\..\..\Shared\ReflectionService\ReflectionService.csproj" />
   </ItemGroup>
 
 </Project>

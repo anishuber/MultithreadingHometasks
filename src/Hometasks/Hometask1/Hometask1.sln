@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMethodInvocation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{95A80864-5090-42F1-B1B6-064825B09947}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLibrary", "..\Shared\CarLibrary\CarLibrary.csproj", "{FB8C1A56-1344-6357-287E-A15BD23EF64B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReflectionService", "..\Shared\ReflectionService\ReflectionService.csproj", "{C31EA737-F72F-3EE6-9194-D0DAF7472648}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarCreation", "CarCreation\CarCreation.csproj", "{0A77D8A4-AF83-78A5-F25D-149B723A1539}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarMetadataViewer", "CarMetadataViewer\CarMetadataViewer.csproj", "{F6F58E83-4AEB-23AB-4AC1-4643AB66D09F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflection", "..\..\Modules\Reflection\Reflection.csproj", "{9E15B125-DEFE-4DF8-B04E-52B6C96CFA80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReflectionService", "..\..\Shared\ReflectionService\ReflectionService.csproj", "{F53ACEFB-26CE-5AF1-BA9F-9E8179324B16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +29,6 @@ Global
 		{95A80864-5090-42F1-B1B6-064825B09947}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95A80864-5090-42F1-B1B6-064825B09947}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95A80864-5090-42F1-B1B6-064825B09947}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB8C1A56-1344-6357-287E-A15BD23EF64B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C31EA737-F72F-3EE6-9194-D0DAF7472648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C31EA737-F72F-3EE6-9194-D0DAF7472648}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C31EA737-F72F-3EE6-9194-D0DAF7472648}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C31EA737-F72F-3EE6-9194-D0DAF7472648}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A77D8A4-AF83-78A5-F25D-149B723A1539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0A77D8A4-AF83-78A5-F25D-149B723A1539}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A77D8A4-AF83-78A5-F25D-149B723A1539}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +37,14 @@ Global
 		{F6F58E83-4AEB-23AB-4AC1-4643AB66D09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F58E83-4AEB-23AB-4AC1-4643AB66D09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6F58E83-4AEB-23AB-4AC1-4643AB66D09F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E15B125-DEFE-4DF8-B04E-52B6C96CFA80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E15B125-DEFE-4DF8-B04E-52B6C96CFA80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E15B125-DEFE-4DF8-B04E-52B6C96CFA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E15B125-DEFE-4DF8-B04E-52B6C96CFA80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F53ACEFB-26CE-5AF1-BA9F-9E8179324B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F53ACEFB-26CE-5AF1-BA9F-9E8179324B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F53ACEFB-26CE-5AF1-BA9F-9E8179324B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F53ACEFB-26CE-5AF1-BA9F-9E8179324B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

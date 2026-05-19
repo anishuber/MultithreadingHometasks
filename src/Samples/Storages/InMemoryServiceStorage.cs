@@ -1,13 +1,18 @@
-﻿using Samples.CarLibrary;
+﻿// <copyright file="InMemoryServiceStorage.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Samples.Storages;
+
+using Samples.CarLibrary;
+
 /// <summary>
 /// Provides an in-memory collection of sample <see cref="Car"/> instances used by demo tasks and tests.
 /// </summary>
 public static class InMemoryServiceStorage
 {
     /// <summary>
-    /// Pre-populated list of sample cars used for serialization/demonstration.
+    /// Gets a pre-populated list of sample services used for serialization/demonstration.
     /// </summary>
     public static IReadOnlyList<Service> Services { get; } = new List<Service>
     {

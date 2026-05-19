@@ -1,5 +1,12 @@
-﻿namespace Samples.CarLibrary;
+﻿// <copyright file="Service.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
+namespace Samples.CarLibrary;
+
+/// <summary>
+/// Class representing a service with a name, address, and operational status. Provides methods for creating and displaying service information.
+/// </summary>
 public class Service
 {
     /// <summary>

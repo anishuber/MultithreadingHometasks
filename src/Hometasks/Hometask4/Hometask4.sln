@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scenarios", "Scenarios\Scenarios.csproj", "{51257019-8041-4A07-8FAA-657416DB2FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReading.Common", "..\..\Modules\FileReading\FileReading.Common\FileReading.Common.csproj", "{3B8FDC49-2AE5-4876-9505-637F2BFD0623}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReading.Shared", "..\..\Modules\FileReading\FileReading.Common\FileReading.Shared.csproj", "{3B8FDC49-2AE5-4876-9505-637F2BFD0623}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReading.Concurrent", "..\..\Modules\FileReading\FileReading.Concurrent\FileReading.Concurrent.csproj", "{7858E434-9ACD-41C8-A87B-81E41BE58C20}"
 EndProject

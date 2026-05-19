@@ -3,6 +3,7 @@ using System.Reflection;
 
 namespace ReflectionService
 {
+    [Obsolete]
     public static class ReflectionServiceHelper
     {
         public static Assembly GetUserAssembly(string filePath)

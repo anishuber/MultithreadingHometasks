@@ -1,4 +1,8 @@
-﻿namespace Samples.Storages;
+﻿// <copyright file="InMemoryCarStorage.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Samples.Storages;
 
 using Samples.CarLibrary;
 
@@ -8,7 +12,7 @@ using Samples.CarLibrary;
 public static class InMemoryCarStorage
 {
     /// <summary>
-    /// Pre-populated list of sample cars used for serialization/demonstration.
+    /// Gets a pre-populated list of sample cars used for serialization/demonstration.
     /// </summary>
     public static IReadOnlyList<Car> Cars { get; } = new List<Car>
     {

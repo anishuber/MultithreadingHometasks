@@ -1,6 +1,10 @@
-﻿using System.Xml.Serialization;
+﻿// <copyright file="Car.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Samples.CarLibrary;
+
+using System.Xml.Serialization;
 
 /// <summary>
 /// Models a minimal car description used for serialization and display.
